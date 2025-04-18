@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ʚᴍ!ᴀ𐙚</title>
+  <link href="kuku.png">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+  <style>
+    body {
+      background-color: black;
+      margin: 0;
+      padding: 0;
+      background: url('BG.gif') no-repeat center center fixed;
+      background-size: cover;
+      backdrop-filter: blur(3px) grayscale(60%);
+      height: 100vh;
+      color: white;
+      font-family: 'Segoe UI', sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      overflow: hidden;
+      
+    }
+    /* {
+      cursor: none !important;
+    } */
+
+    .overlay {
+      text-align: center;
+      background-color: rgba(226, 197, 250, 0.3);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      border-radius: 20px;
+      padding: 20px;
+      width: 300px;
+      height: 480px;
+      box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+      z-index: 2;
+    }
+
+    .profile-img {
+      width: 120px;
+      height: 120px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 2px solid white;
+      margin-top: 20px;
+    }
+
+    h1 {
+      font-size: 32px;
+      margin-top: 15px;
+    }
+
+    .sub-icons {
+      font-size: 14px;
+      opacity: 0.8;
+    }
+
+    .card-box {
+      background-color: rgba(204, 153, 255, 0.2);
+      backdrop-filter: blur(10px);
+      border-radius: 15px;
+      padding: 10px 20px;
+      margin: 25px auto;
+      max-width: 300px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .card-box img {
+      width: 50px;
+      height: 60px;
+      border-radius: 20%;
+    }
+
+    .card-box .text-start {
+      text-align: left;
+      margin-left: 10px;
+    }
+
+    .social-icons a i {
+      font-size: 24px;
+      margin: 0 10px;
+      color: white;
+    }
+
+    .music-btn {
+      position: absolute;
+      top: 20px;
+      left: 20px;
+      background: rgb(179 17 222 / 20%);
+      border: none;
+      border-radius: 50%;
+      width: 40px;
+      height: 40px;
+      color: white;
+      cursor: pointer;
+      z-index: 3;
+    }
+
+    .music-btn:hover {
+      background: rgba(214, 6, 6, 0.3);
+    }
+
+    .volume-slider {
+      position: absolute;
+      top: 37px;
+      left: 60px;
+      width: 100px;
+      appearance: none;
+      height: 6px;
+      border-radius: 5px;
+      background: rgb(179 17 222 / 20%);
+      outline: none;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s;
+      z-index: 3;
+    }
+
+    .volume-slider::-webkit-slider-thumb {
+      appearance: none;
+      width: 12px;
+      height: 12px;
+      background: white;
+      border-radius: 50%;
+      cursor: pointer;
+    }
+
+    .music-container:hover .volume-slider {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .viewer-count {
+      position: absolute;
+      bottom: 20px;
+      left: 20px;
+      font-size: 14px;
+      color: white;
+      background: rgba(0, 0, 0, 0.4);
+      padding: 5px 10px;
+      border-radius: 20px;
+      z-index: 3;
+    }
+
+    /* 🎀 โบว์ตกลงมา */
+    .falling-bow {
+      position: absolute;
+      top: -50px;
+      font-size: 24px;
+      animation: fall 3s linear infinite;
+      color: white;
+      text-shadow: 0 0 5px #fff, 0 0 10px #e0b3ff, 0 0 20px #d48fff, 0 0 30px #c266ff;
+      user-select: none;
+      pointer-events: none;
+      will-change: transform, opacity;
+    }
+
+    @keyframes fall {
+      0% {
+        transform: translateY(0);
+        opacity: 1;
+      }
+      100% {
+        transform: translateY(110vh);
+        opacity: 1;
+      }
+    }
+
+    /* 🎀 โบว์เมาส์ */
+    #cursor-bow {
+      position: fixed;
+      font-size: 24px;
+      pointer-events: none;
+      z-index: 9999;
+      color: white;
+      text-shadow: 0 0 5px #fff, 0 0 10px #e0b3ff, 0 0 20px #d48fff, 0 0 30px #c266ff;
+      transform: translate(-50%, -50%);
+      user-select: none;
+      will-change: transform;
+    }
+    
+    
+    
+  </style>
+</head>
+<body onload="PlayMusic()">
+  <div id="cursor-bow">𐙚</div>
+
+  <!-- ปุ่มเพลง -->
+  <div class="music-container">
+    <button class="music-btn" onclick="toggleMusic()">
+      <i id="sound-icon" class="fas fa-volume-mute"></i>
+    </button>
+    <input class="volume-slider" type="range" min="0" max="1" step="0.01" value="0.5" onchange="setVolume(this.value)">
+  </div>
+
+  <!-- เพลง -->
+  <audio id="bg-music" autoplay loop>
+    <source src="Is There Someone Else_.mp3" type="audio/mpeg">
+    Your browser does not support the audio element.
+  </audio>
+
+  <!-- กล่องโปรไฟล์ -->
+  <div class="overlay">
+    <img src="Profile.jpg" alt="Profile" class="profile-img">
+    <h1>ʚᴍ!ᴀ𐙚</h1>
+    <div class="sub-icons">‿︵‿︵ʚ˚̣̣̣͙ɞ・❉・ ʚ˚̣̣̣͙ɞ‿︵‿︵</div>
+
+    <div class="card-box">
+      <img src="SubPro.gif">
+      <div class="text-start">
+        <div><strong>ᴍᴇ,ᴍʏꜱᴇʟꜰ & ɪ</strong> <i class="fas fa-record-vinyl text-danger"></i> <i class="fas fa-eye text-light"></i></div>
+        <div class="text-light small">⁀➴ʙᴇᴍʏʙᴀʙʏ.</div>
+      </div>
+    </div>
+
+    <div class="social-icons">
+      <a href="https://discord.gg/Zrx3ekFs" target="_blank"><i class="fab fa-discord"></i></a>
+      <a href="https://www.instagram.com/xmianpn_?igsh=dmIyd2l4a3BqZHdh" target="_blank"><i class="fab fa-instagram"></i></a>
+      <a href="https://www.tiktok.com/@miagxgrey?_t=ZS-8vMzDnrvAyw&_r=1" target="_blank"><i class="fab fa-tiktok"></i></a>
+      <a href="https://steamcommunity.com/profiles/76561199688659195/" target="_blank"><i class="fab fa-steam"></i></a>
+    </div>    
+  </div>
+
+  <div class="viewer-count">
+    <i class="fas fa-eye"></i> 1.25k
+  </div>
+
+  <!-- 🎀 Script ลื่นๆ -->
+  <script>
+    const music = document.getElementById('bg-music');
+    const icon = document.getElementById('sound-icon');
+
+    window.addEventListener('load', () => {
+      music.volume = 0.5;
+      music.play().catch(e => {
+        console.warn("Autoplay blocked:", e);
+      });
+    });
+
+    function PlayMusic() {
+      music.play();
+    }
+
+    function toggleMusic() {
+      if (music.paused) {
+        music.play();
+        icon.classList.remove('fa-volume-mute');
+        icon.classList.add('fa-volume-up');
+      } else {
+        music.pause();
+        icon.classList.remove('fa-volume-up');
+        icon.classList.add('fa-volume-mute');
+      }
+    }
+
+    function setVolume(value) {
+      music.volume = value;
+    }
+
+    // 🎀 โบว์เมาส์ไม่หน่วง
+    const cursorBow = document.getElementById('cursor-bow');
+    let targetX = 0;
+    let targetY = 0;
+    let currentX = 0;
+    let currentY = 0;
+    
+    document.addEventListener('mousemove', (e) => {
+      targetX = e.clientX;
+      targetY = e.clientY;
+    });
+    
+    function animateCursor() {
+      // ค่อย ๆ เคลื่อนเข้าหาตำแหน่งเป้าหมาย (ค่ามาก = เร็ว)
+      const speed = 0.15;
+      currentX += (targetX - currentX) * speed;
+      currentY += (targetY - currentY) * speed;
+    
+      cursorBow.style.left = currentX + 'px';
+      cursorBow.style.top = currentY + 'px';
+    
+      requestAnimationFrame(animateCursor);
+    }
+    
+    // animateCursor();
+    
+    
+
+    // 🎀 โบว์ตกลงมา
+    function createFallingBow() {
+      const bow = document.createElement('div');
+      bow.className = 'falling-bow';
+      bow.textContent = '𐙚';
+      bow.style.left = Math.random() * window.innerWidth + 'px';
+      bow.style.animationDuration = (5 + Math.random() * 2) + 's';
+      bow.style.fontSize = (16 + Math.random() * 16) + 'px';
+      document.body.appendChild(bow);
+      setTimeout(() => bow.remove(), 7000);
+    }
+
+    setInterval(createFallingBow, 1000);
+
+    
+</script>
+
+</body>
+</html>
